@@ -1,38 +1,33 @@
 import logo from "./platzi.webp";
 import "./App.css";
+import { TodoCounter } from "./components/TodoCounter";
+import { TodoItem } from "./components/TodoItem";
+import { TodoSearch } from "./components/TodoSearch";
+import { TodoList } from "./components/TodoList";
+import { CreateTodoItem } from "./components/CreateTodoItem";
+
+const defaultTodos = [
+  {text: 'cortar la cebolla', completed: false},
+  {text: 'cortar la cebolla', completed: false},
+  {text: 'cortar la cebolla', completed: false},
+  {text: 'cortar la cebolla', completed: false},
+];
 
 function App() {
   return (
-    <div className="App">
-      <lu>
+    <div className="bg-gray-900 text-gray-200 flex justify-start items-center flex-col sm:p-16 h-[100vh] w-[100vw]">
+      <TodoCounter completed={10} total={15} />
+      <TodoSearch />
+      <TodoList>
         <TodoItem />
-      </lu>
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edita el archivo <code>src/App.js</code> y guarda para recargar.
-        </p>
-        <a
-          className="App-link"
-          href="https://platzi.com/reactjs"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Aprendamos React
-        </a>
-      </header>
+        <TodoItem />
+        <TodoItem />
+      </TodoList>
+      <CreateTodoItem/>
     </div>
   );
 }
 
-function TodoItem (){
-  return (
-    <li>
-      <span>V</span>
-      <p> lloar con la llorona </p>
-      <span>X</span>
-    </li>
-  );
-}
+
 
 export default App;
