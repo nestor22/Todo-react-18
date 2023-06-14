@@ -13,11 +13,16 @@ const defaultTodos = [
   { text: "cortar la cebolla", completed: false },
   { text: "cortar la cebolla", completed: false },
   { text: "cortar la cebolla", completed: false },
-];
+]; 
+
+localStorage.setItem('TODOS', JSON.stringify(defaultTodos));
 
 function App() {
+  let parsedTodos = localStorage.getItem('TODOS');
+
+
   const [searchValue, setSearchValue] = useState("");
-  const [todos, setTodos] = useState(defaultTodos);
+  const [todos, setTodos] = useState([]);
 
   const completedTodos = todos.filter((todo) => !!todo.completed).length;
   const searchedTodos = todos.filter((todo) =>
@@ -28,6 +33,11 @@ function App() {
   const completeTodo = (todoIndex, completed) => {
     const newTodos = [...todos];
     newTodos[todoIndex].completed = !completed;
+    setTodos(newTodos);
+  };
+  const deleteTodo = (todoIndex) => {
+    const newTodos = [...todos];
+    delete newTodos[todoIndex];
     setTodos(newTodos);
   };
   return (
@@ -44,6 +54,7 @@ function App() {
               text={todo.text}
               completed={todo.completed}
               onComplete={completeTodo}
+              onDeleted={deleteTodo}
             />
           );
         })}
