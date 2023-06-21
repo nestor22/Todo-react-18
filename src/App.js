@@ -7,22 +7,24 @@ import { TodoList } from "./components/TodoList";
 import { CreateTodoItem } from "./components/CreateTodoItem";
 import { TitleSeccion } from "./components/TitleSeccion";
 import { useState } from "react";
+import useLocalStorage from "./hooks/useLocalStorage";
 
 const defaultTodos = [
   { text: "cortar la cebolla", completed: false },
   { text: "cortar la cebolla", completed: false },
   { text: "cortar la cebolla", completed: false },
   { text: "cortar la cebolla", completed: false },
-]; 
+];
 
-localStorage.setItem('TODOS', JSON.stringify(defaultTodos));
+localStorage.setItem("TODOS", JSON.stringify(defaultTodos));
 
 function App() {
-  let parsedTodos = localStorage.getItem('TODOS');
-
+  const { item: todos, saveItem: saveTodos } = useLocalStorage(
+    "TODOS_V1",
+    defaultTodos
+  );
 
   const [searchValue, setSearchValue] = useState("");
-  const [todos, setTodos] = useState([]);
 
   const completedTodos = todos.filter((todo) => !!todo.completed).length;
   const searchedTodos = todos.filter((todo) =>
@@ -33,12 +35,12 @@ function App() {
   const completeTodo = (todoIndex, completed) => {
     const newTodos = [...todos];
     newTodos[todoIndex].completed = !completed;
-    setTodos(newTodos);
+    saveTodos(newTodos);
   };
   const deleteTodo = (todoIndex) => {
     const newTodos = [...todos];
     delete newTodos[todoIndex];
-    setTodos(newTodos);
+    saveTodos(newTodos);
   };
   return (
     <div className="bg-gray-900 text-gray-200 flex justify-start items-center flex-col xs:p-16 h-[100vh] w-[100vw]">
@@ -50,7 +52,7 @@ function App() {
           return (
             <TodoItem
               key={index}
-              index = {index}
+              index={index}
               text={todo.text}
               completed={todo.completed}
               onComplete={completeTodo}
